@@ -24,22 +24,22 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PSKCoreSDR.h">
+    <ClInclude Include="pskcoresdr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CalcIMD.h">
+    <ClInclude Include="calcimd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PskDet.h">
+    <ClInclude Include="pskdet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PskDetTbl.h">
+    <ClInclude Include="pskdettbl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PSKMod.h">
+    <ClInclude Include="pskmod.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PSKTables.h">
+    <ClInclude Include="psktables.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,19 +47,19 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PSKCoreSDR.cpp">
+    <ClCompile Include="pskcoresdr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CalcIMD.cpp">
+    <ClCompile Include="calcimd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PskDet.cpp">
+    <ClCompile Include="pskdet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PSKMod.cpp">
+    <ClCompile Include="pskmod.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
