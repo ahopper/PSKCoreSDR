@@ -30,7 +30,7 @@
 #include <stddef.h>
 #include "psktables.h"
 //#include "Pskcore.h"
-#include "PSKMod.h"
+#include "pskmod.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

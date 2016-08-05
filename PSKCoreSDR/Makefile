@@ -1,9 +1,9 @@
 #
 # libpsk.so Makefile (Linux)
 #
-CC=gcc
-LINK=gcc
-OPTIONS=-g -fPIC -O3
+CC=c++
+LINK=c++
+OPTIONS=-g -fPIC -O3 -std=gnu++11
 
 INCLUDES=
 
@@ -11,23 +11,26 @@ COMPILE=$(CC) $(INCLUDES)
 
 PROGRAM=libpsk.so
 
-SOURCES= CalcIMD.cpp \
-PskDet.cpp \
+SOURCES= calcimd.cpp \
+pskdet.cpp \
+pskmod.cpp \
 stdafx.cpp \
-PSKCoreSDR.cpp
+pskcoresdr.cpp
 
-HEADERS= CalcIMD.h \
-PskDet.h \
-PskDetTbl.h \
-PskTables.h \
+HEADERS= calcimd.h \
+pskdet.h \
+pskdettbl.h \
+psktables.h \
+pskmod.h \
 stdafx.h \
 targetver.h \
-PSKCoreSDR.h
+pskcoresdr.h
 
-OBJS= CalcIMD.o \
-PskDet.o \
+OBJS= calcimd.o \
+pskdet.o \
+pskmod.o \
 stdafx.o \
-PSKCoreSDR.o
+pskcoresdr.o
 
 all: $(PROGRAM) $(HEADERS) $(SOURCES)
 
@@ -38,7 +41,7 @@ $(PROGRAM): $(OBJS)
 	$(COMPILE) $(OPTIONS) -c -o $@ $<
 
 install: $(PROGRAM)
-	cp test_psk.h /usr/local/include
+	cp pskcoresdr.h /usr/local/include
 	cp $(PROGRAM) /usr/local/lib
 
 release: $(PROGRAM)

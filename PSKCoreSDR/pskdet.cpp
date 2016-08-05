@@ -24,8 +24,8 @@
 //
 
 #include "stdafx.h"
-#include "PskDet.h"
-#include "PskTables.h"
+#include "pskdet.h"
+#include "psktables.h"
 //#include "Pskcore.h"
 //#include "perform.h"
 #include <stdlib.h> 

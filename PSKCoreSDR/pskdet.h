@@ -30,8 +30,8 @@
 #endif // _MSC_VER >= 1000
 
 #include <math.h>
-#include "PskDetTbl.h"
-#include "CalcIMD.h"
+#include "pskdettbl.h"
+#include "calcimd.h"
 
 #define BPSK_MODE 0
 #define QPSKU_MODE 1

@@ -23,9 +23,9 @@
 //
 
 #include "stdafx.h"
-#include "PSKCoreSDR.h"
-#include "PskDet.h"
-#include "PSKMod.h"
+#include "pskcoresdr.h"
+#include "pskdet.h"
+#include "pskmod.h"
 
 
 PSKCORE_API void* createPSKDet(int fs)

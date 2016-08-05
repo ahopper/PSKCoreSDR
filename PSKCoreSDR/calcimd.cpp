@@ -25,7 +25,7 @@
 
 #include "stdafx.h"
 #include "math.h"
-#include "CalcIMD.h"
+#include "calcimd.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

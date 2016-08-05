@@ -3,6 +3,7 @@
 #define LONG long
 #define BYTE unsigned char
 #define WORD long
+#define PINT int *
 
 typedef struct COMPLEX {
   double x;
