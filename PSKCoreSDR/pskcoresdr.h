@@ -26,7 +26,7 @@
 // that uses this DLL. This way any other project whose source files include this file see 
 // PSKCORE_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
-#define PSKCORE_EXPORTS
+//#define PSKCORE_EXPORTS
 #ifdef PSKCORE_EXPORTS
 #ifdef linux
 #define PSKCORE_API extern
@@ -40,7 +40,10 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-	PSKCORE_API void* createPSKDet(int fs);
+	PSKCORE_API void* createPSKDet();
+	PSKCORE_API void* initPSKDet(int fs);
+	PSKCORE_API void setupPSKDet(void* det, int fs);
+
 	PSKCORE_API int runPSKDet(void* det, double * inp, int len, int stride, char* result, int resultLen);
 	PSKCORE_API void freePSKDet(void* det);
 	PSKCORE_API void SetSquelchThresh(void* det, int limit);
@@ -49,6 +52,7 @@ extern "C" {
 	PSKCORE_API int GetSignalLevel(void* det);
 	PSKCORE_API void SetAFCLimit(void* det, int limit);
 	PSKCORE_API void ResetDetector(void* det);
+	PSKCORE_API void SetRXPSKMode(void* det,int mode);
 
 	PSKCORE_API void* createPSKMod(int fs, double maxAmplitude);
 	PSKCORE_API void freePSKMod(void* mod);

@@ -28,12 +28,21 @@
 #include "pskmod.h"
 
 
-PSKCORE_API void* createPSKDet(int fs)
+PSKCORE_API void* createPSKDet()
+{
+	CPSKDet* d = new CPSKDet();
+	return d;
+}
+// depreciated
+PSKCORE_API void* initPSKDet(int fs)
 {
 	CPSKDet* d = new CPSKDet();
 	d->Init(fs);
-
 	return d;
+}
+PSKCORE_API void setupPSKDet(void* det, int fs)
+{
+	((CPSKDet*)det)->Init(fs);
 }
 PSKCORE_API int runPSKDet(void* det, double * inp, int len, int stride, char* result, int resultLen)
 {
@@ -67,7 +76,10 @@ PSKCORE_API void ResetDetector(void* det)
 {
 	((CPSKDet*)det)->ResetDetector();
 }
-
+PSKCORE_API void SetRXPSKMode(void* det, int mode)
+{
+	((CPSKDet*)det)->SetRXPSKMode(mode);
+}
 
 PSKCORE_API void* createPSKMod(int fs, double maxAmplitude)
 {
