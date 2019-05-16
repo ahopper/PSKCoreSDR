@@ -23,9 +23,9 @@
 //
 
 #include "stdafx.h"
-#include "pskcoresdr.h"
 #include "pskdet.h"
 #include "pskmod.h"
+#include "pskcoresdr.h"
 
 
 PSKCORE_API void* createPSKDet()
@@ -103,6 +103,12 @@ PSKCORE_API void PutTxQue(void* mod, int ch)
 {
 	((CPSKMod*)mod)->PutTxQue(ch, false);
 }
-
-
-
+PSKCORE_API void SetCallback(void* mod, void* context, getNextCharCallback callback)
+{
+	((CPSKMod*)mod)->callbackContext = context;
+	((CPSKMod*)mod)->getNextChar = callback;
+}
+PSKCORE_API void SetMode(void* mod, int mode)
+{
+	((CPSKMod*)mod)->SetTXMode(mode);
+}

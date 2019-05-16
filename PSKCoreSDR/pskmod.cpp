@@ -237,7 +237,7 @@ void CPSKMod::CreateRampBuffers(int Fs)
 void CPSKMod::InitPSKMod(INT Fs, double MaxAmplitude)
 {
 	
-	m_RMSConstant = MaxAmplitude / sqrt(2.0);
+	m_RMSConstant = MaxAmplitude;// sqrt(2.0);
 
 	if (PSKShapeTbl_Z == NULL || Fs != m_Fs)
 		CreateRampBuffers(Fs);
@@ -377,12 +377,13 @@ INT symbol;
 INT i;
 INT v = 0;
 	//m_RMSConstant = TX_CONSTANT;
-	for( i=0; i<n; i++ )		//calculate n samples of tx data stream
+	for( i=0; i<n; i+=2 )		//calculate n samples of tx data stream
 	{
 		m_t += m_PSKPhaseInc;			// increment radian phase count
 // create sample from sin/cos and shape tables
-		pData[i*stride] = m_RMSConstant*( m_pPSKtxI[m_Ramp]*sin( m_t ) + m_pPSKtxQ[m_Ramp++]*cos( m_t ) );
-				
+		pData[i * stride] = m_RMSConstant*( m_pPSKtxI[m_Ramp]*sin( m_t ));
+		pData[i * stride + 1] = m_RMSConstant * ( m_pPSKtxQ[m_Ramp++] * cos(m_t));
+
 		m_PSKTime += m_PSKSecPerSamp;
 		if( m_PSKTime >= m_PSKPeriodUpdate )//if time to update symbol
 		{
@@ -423,7 +424,60 @@ INT v = 0;
 		}
 	}
 }
+/*
+void CPSKMod::CalcPSK(double* pData, INT n, INT stride)
+{
+	INT symbol;
+	INT i;
+	INT v = 0;
+	//m_RMSConstant = TX_CONSTANT;
+	for (i = 0; i < n; i++)		//calculate n samples of tx data stream
+	{
+		m_t += m_PSKPhaseInc;			// increment radian phase count
+// create sample from sin/cos and shape tables
+		pData[i * stride] = m_RMSConstant * (m_pPSKtxI[m_Ramp] * sin(m_t) + m_pPSKtxQ[m_Ramp++] * cos(m_t));
 
+		m_PSKTime += m_PSKSecPerSamp;
+		if (m_PSKTime >= m_PSKPeriodUpdate)//if time to update symbol
+		{
+			m_PSKTime -= m_PSKPeriodUpdate;	//keep time bounded
+			m_Ramp = 0;						// time to update symbol
+			m_t = fmod(m_t, m_2PI);			//keep radian counter bounded
+			switch (m_PSKmode & 0x07)				//get next symbol to send
+			{
+			case CW_MODE:
+				symbol = GetNextCWSymbol();
+				break;
+			case BPSK_MODE:
+				symbol = GetNextBPSKSymbol();
+				break;
+			case QPSKU_MODE:
+				symbol = GetNextQPSKSymbol();
+				break;
+			case QPSKL_MODE:
+				symbol = GetNextQPSKSymbol();
+				if (symbol == SYM_P90)		//rotate vectors the opposite way
+					symbol = SYM_M90;
+				else
+					if (symbol == SYM_M90)
+						symbol = SYM_P90;
+				break;
+			case TUNE_MODE:
+			case TUNE_MODE_WID:
+				symbol = GetNextTuneSymbol();
+				break;
+			}
+			//get new I/Q ramp tables and next phase
+			m_pPSKtxI = PSKPhaseLookupTable[symbol][m_PresentPhase].iptr;
+			m_pPSKtxQ = PSKPhaseLookupTable[symbol][m_PresentPhase].qptr;
+			m_PresentPhase = PSKPhaseLookupTable[symbol][m_PresentPhase].next;
+			m_IQPhaseArray[v++] = m_VectLookup[m_PresentPhase][0];
+			m_IQPhaseArray[v++] = m_VectLookup[m_PresentPhase][1];
+			v = v & 0x000F;	//keep bounded to 16
+		}
+	}
+}
+*/
 
 /////////////////////////////////////////////////////////////
 // called every symbol time to get next CW symbol and get the
@@ -796,14 +850,23 @@ INT CPSKMod::GetTxChar()
 
 INT ch;
 //	EnterCriticalSection(&m_CriticalSection);
-	if( m_pHead != m_pTail )	//if something in Queue
+	if (getNextChar != nullptr)
 	{
-		ch = m_pXmitQue[m_pTail++] & 0x00FF;
-		if( m_pTail >= TX_BUF_SIZE )
-			m_pTail = 0;
+		ch = getNextChar(callbackContext);
+		//if(ch<0)ch= TXTOG_CODE;
+		
 	}
 	else
-		ch = TXTOG_CODE;		// if que is empty return TXTOG_CODE
+	{
+		if (m_pHead != m_pTail)	//if something in Queue
+		{
+			ch = m_pXmitQue[m_pTail++] & 0x00FF;
+			if (m_pTail >= TX_BUF_SIZE)
+				m_pTail = 0;
+		}
+		else
+			ch = TXTOG_CODE;		// if que is empty return TXTOG_CODE
+	}
 	if(m_TempNeedShutoff)
 	{
 		m_TempNeedShutoff = FALSE;

@@ -2,7 +2,7 @@
 #define INT int
 #define LONG long
 #define BYTE unsigned char
-#define WORD long
+#define WORD unsigned short
 #define PINT int *
 
 typedef struct COMPLEX {
@@ -13,3 +13,4 @@ typedef struct COMPLEX {
 #define FALSE 0
 
 #define __declspec(dllexport)
+

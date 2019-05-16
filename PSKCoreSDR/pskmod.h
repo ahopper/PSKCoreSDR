@@ -47,7 +47,7 @@ struct PSKStruct
 
 typedef PSKStruct PSKSTATE;
 
-
+typedef int(* getNextCharCallback)(void* context);
 
 class CPSKMod  
 {
@@ -62,7 +62,11 @@ public:
 	void SetCWIDSpeed(LONG speed);
 	INT GetTXCharsRemaining();
 //	void SetTXCWID( PCHAR lpszIDstrg){m_CWIdString = lpszIDstrg;}
-	void SetTXFreq(INT freq){m_TxFreq = (double)freq;}
+	void SetTXFreq(INT freq)
+	{
+		m_TxFreq = (double)freq;
+		m_PSKPhaseInc = m_2PI * m_TxFreq / m_SampleFreq;
+	}
 	void SetTXMode(INT mode);
 	void SetAutoShutoff(BOOL val){m_NeedShutoff = val;}
 	void SetAutoCWID(BOOL val){ m_NeedCWid = val;}
@@ -71,6 +75,9 @@ public:
 //	void SetSampleClkAdj(INT ppm){m_ClkError = 1.0 - (double)ppm/1000000.0;};
 	void GetVectorData(long* VectData);
 
+	getNextCharCallback getNextChar = nullptr;
+
+	void* callbackContext = nullptr;
 //	HWND m_hWnd;
 
 private:

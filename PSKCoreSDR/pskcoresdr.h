@@ -40,6 +40,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+	typedef int(* getNextCharCallback)(void* context);
+
 	PSKCORE_API void* createPSKDet();
 	PSKCORE_API void* initPSKDet(int fs);
 	PSKCORE_API void setupPSKDet(void* det, int fs);
@@ -59,6 +62,10 @@ extern "C" {
 	PSKCORE_API void SetTXFrequency(void* mod, int frequency);
 	PSKCORE_API void CalcPSK(void* mod, double* pData, int n, int stride);
 	PSKCORE_API void PutTxQue(void* mod, int ch);
+	PSKCORE_API void SetCallback(void* mod, void* context, getNextCharCallback callback);
+	PSKCORE_API void SetMode(void* mod, int mode);
+
+
 #ifdef __cplusplus
 }
 #endif
